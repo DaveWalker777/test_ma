@@ -1,0 +1,15 @@
+SELECT
+    user_id,
+    SUM(reward) AS total_reward_2022
+FROM
+    reports
+WHERE
+    user_id IN (
+        SELECT user_id
+        FROM reports
+        GROUP BY user_id
+        HAVING MIN(created_at) BETWEEN '2021-01-01' AND '2021-12-31'
+    )
+    AND created_at BETWEEN '2022-01-01' AND '2022-12-31'
+GROUP BY
+    user_id;
